@@ -43,16 +43,68 @@ class Character {
     }
 }
 
-const robin = new Character("Robin");
-robin.inventory = ["sword", "potion", "artifact"];
-robin.companion = new Character("Leo");
-robin.companion.type = "Cat";
-robin.companion.companion = new Character("Frank");
-robin.companion.companion.type = "Flea";
-robin.companion.companion.inventory = ["small-hat", "sunglasses"];
+// const robin = new Character("Robin");
+// robin.inventory = ["sword", "potion", "artifact"];
+// robin.companion = new Character("Leo");
+// robin.companion.type = "Cat";
+// robin.companion.companion = new Character("Frank");
+// robin.companion.companion.type = "Flea";
+// robin.companion.companion.inventory = ["small-hat", "sunglasses"];
 
 /* Prints everything but inventory for Flea */
 //console.log(robin);
 
 /* Rolls dice even for companions */
 //robin.companion.companion.roll();
+
+/* PART 3 --------------------------------------- */
+class Adventurer extends Character {
+    constructor (name, role) {
+      super(name);
+      // Adventurers have specialized roles.
+      this.role = role;
+      // Every adventurer starts with a bed and 50 gold coins.
+      this.inventory.push("bedroll", "50 gold coins");
+    }
+    // Adventurers have the ability to scout ahead of them.
+    scout () {
+      console.log(`\n${this.name} is scouting ahead...`);
+      super.roll();
+    }
+
+    // Only the adventurer can sttack
+    attack() {
+        console.log(`${this.name} is attacking!`);
+        super.roll(5); // Roll with a +2 modifier for attack
+    }
+}
+
+class Companion extends Character {
+    constructor(name, type) {
+        super(name);
+        this.type = type;
+    }
+
+    // Only companioans can assist for the adventurer
+    // Companioans can assist companioans
+    assist() {
+        console.log(`${this.name} is assisting their adventurer!`);
+        super.roll(2); // Roll with a +1 modifier for assistance
+    }
+}
+
+const robin = new Adventurer("Robin", "Warrior");
+robin.inventory.push("sword", "potion", "artifact");
+
+const leo = new Companion("Leo", "Cat");
+const frank = new Companion("Frank", "Flea");
+frank.inventory.push["small hat", "sunglasses"];
+
+robin.companion = leo;
+leo.companion = frank;
+
+console.log(robin);
+
+robin.scout();
+robin.attack();
+leo.assist();
